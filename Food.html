@@ -1,0 +1,80 @@
+<html ng-app="foodApp">
+
+	  <head>
+
+	    <meta charset="utf-8">
+
+	    <title>Food Database</title>
+
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+	    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+
+	    <script>
+
+	      var foodApp = angular.module('foodApp', []);
+		
+		
+	      foodApp.controller('foodCtrl',['$scope','$http', function ($scope,$http)
+		{
+		
+		$scope.submit=function()
+			{
+		var ndb=$scope.number;
+				
+		var url= "http://api.nal.usda.gov/ndb/search/?q="+ndb+"&type=b&format=json&api_key=RagHkdKRDmdFTVqN40vVfbMdVS4anHxfPVGuEtjQ" ;
+
+	        $http.get(url).success(function(data) {
+
+	          $scope.food= data;
+		
+
+	        });
+
+	      }
+		}]);
+
+	    </script>
+
+	  </head>
+
+	  <body ng-controller="foodCtrl">
+	   <center>
+ <h1>
+Food Database
+</h1>
+<p>
+Enter  the Food Item to get Results: <input type="text" ng-model="number">
+</p>
+<input type="button" ng-click="submit()" value ="Get Results">
+<br>
+<br>
+	    
+	    <table border="1">
+
+	      <tr>
+
+	       
+
+	        <th>NDB FOOD NUMBER</th>
+
+	        <th>FOOD NAME</th>
+
+	      </tr>
+
+	      <tr ng-repeat=" x in food.list.item" >
+
+	      
+
+	        <td>{{x.ndbno}}</td>
+
+	        <td>{{x.name}}</td>
+
+	      </tr>
+		
+
+	    </table>
+
+	  </body>
+
+	</html>
